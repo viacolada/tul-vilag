@@ -81,9 +81,14 @@ p {
     max-width: 550px;
 }
 
+.quote-box #content {
+    max-height: none;
+    overflow: visible;
+}
+
 .quote-box #content p {
     text-indent: 0 !important;
-    text-align: center;
+    text-align: center !important;
     font-style: italic;
     line-height: 1.8;
     margin-bottom: 0.4em;
