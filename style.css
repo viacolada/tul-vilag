@@ -70,6 +70,10 @@ p {
     text-indent: 0;
 }
 
+#content.no-indent p {
+    text-indent: 0;
+}
+
 /* --- Alsó homályos sáv --- */
 .content-wrapper {
     position: relative;
@@ -150,7 +154,7 @@ a.back {
 .countdown {
     font-size: 14px;
     opacity: 0.7;
-    font-family: monospace;
+    font-family: Georgia, serif;
 }
 
 .chapters a.locked {
