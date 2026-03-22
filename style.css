@@ -28,6 +28,7 @@
 
 body {
     font-family: Georgia, serif;
+    font-size: 17px;
     max-width: 700px;
     margin: 40px auto;
     padding: 0 20px;
@@ -86,12 +87,18 @@ p {
     overflow: visible;
 }
 
-.quote-box #content p {
+.quote-box p {
     text-indent: 0 !important;
     text-align: center !important;
     font-style: italic;
     line-height: 1.8;
     margin-bottom: 0.4em;
+}
+
+.quote-box .quote-author {
+    font-style: normal;
+    margin-top: 10px;
+    opacity: 0.7;
 }
 
 /* --- Alsó homályos sáv --- */
