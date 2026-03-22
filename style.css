@@ -74,6 +74,21 @@ p {
     text-indent: 0 !important;
 }
 
+/* --- Idézet doboz a főoldalon --- */
+.quote-box {
+    margin: 20px auto;
+    padding: 20px 30px;
+    max-width: 550px;
+}
+
+.quote-box #content p {
+    text-indent: 0 !important;
+    text-align: center;
+    font-style: italic;
+    line-height: 1.8;
+    margin-bottom: 0.4em;
+}
+
 /* --- Alsó homályos sáv --- */
 .content-wrapper {
     position: relative;
