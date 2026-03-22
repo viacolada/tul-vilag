@@ -77,28 +77,32 @@ p {
 
 /* --- Idézet doboz a főoldalon --- */
 .quote-box {
-    margin: 20px auto;
-    padding: 20px 30px;
-    max-width: 550px;
+    margin: 30px auto;
+    padding: 0;
+    max-width: 520px;
 }
 
-.quote-box #content {
-    max-height: none;
-    overflow: visible;
+.quote-box blockquote {
+    margin: 0;
+    padding: 0 20px;
+    border-left: 3px solid var(--text);
+    opacity: 0.85;
 }
 
-.quote-box p {
+.quote-box blockquote p {
     text-indent: 0 !important;
-    text-align: center !important;
+    text-align: left !important;
     font-style: italic;
-    line-height: 1.8;
-    margin-bottom: 0.4em;
+    line-height: 1.9;
+    margin: 0;
 }
 
-.quote-box .quote-author {
-    font-style: normal;
-    margin-top: 10px;
-    opacity: 0.7;
+.quote-box figcaption {
+    text-align: right;
+    font-size: 0.9em;
+    margin-top: 12px;
+    opacity: 0.6;
+    letter-spacing: 0.03em;
 }
 
 /* --- Alsó homályos sáv --- */
