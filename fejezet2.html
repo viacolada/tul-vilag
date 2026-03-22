@@ -3,27 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Túl-világ</title>
+    <title>2. fejezet – Túl-világ</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
     <script src="theme.js"></script>
 </head>
 <body>
     <button class="theme-toggle" aria-label="Téma váltás"></button>
-    <h1>Túl-világ</h1>
+    <h1>2. fejezet</h1>
     <div class="content-wrapper">
         <div id="content">Betöltés...</div>
     </div>
     <script>
-        fetch("start.docx")
+        fetch("fejezet2.docx")
             .then(function(r) { return r.arrayBuffer(); })
             .then(function(buf) { return mammoth.convertToHtml({ arrayBuffer: buf }); })
             .then(function(result) { document.getElementById("content").innerHTML = result.value; });
     </script>
-    <div class="chapters">
-        <a href="fejezet1.html">1. fejezet</a>
-        <!--<a href="fejezet2.html">2. fejezet</a>-->
-       <!--<a href="fejezet3.html">3. fejezet</a>-->
-    </div>
+    <a class="back" href="index.html">← Vissza a főoldalra</a>
 </body>
 </html>
