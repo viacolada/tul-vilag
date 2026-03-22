@@ -85,7 +85,7 @@ p {
 .quote-box blockquote {
     margin: 0;
     padding: 0 20px;
-    border-left: 3px solid var(--text);
+    border-left: 3px solid #9b8fbf;
     opacity: 0.85;
 }
 
