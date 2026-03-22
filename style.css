@@ -71,7 +71,7 @@ p {
 }
 
 #content.no-indent p {
-    text-indent: 0;
+    text-indent: 0 !important;
 }
 
 /* --- Alsó homályos sáv --- */
