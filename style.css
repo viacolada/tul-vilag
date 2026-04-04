@@ -170,6 +170,8 @@ a.back {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* Monokróm ikon */
+    filter: grayscale(1) contrast(1.2);
 }
 
 .theme-toggle:hover {

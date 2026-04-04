@@ -10,15 +10,33 @@
 </head>
 <body>
     <button class="theme-toggle" aria-label="Téma váltás"></button>
-    <h1>2. fejezet</h1>
+    <h1 id="chapter-title">2. fejezet</h1>
     <div class="content-wrapper">
         <div id="content">Betöltés...</div>
     </div>
     <script>
-        fetch("fejezet2.docx")
+        fetch("2-SODRODAS.docx")
             .then(function(r) { return r.arrayBuffer(); })
             .then(function(buf) { return mammoth.convertToHtml({ arrayBuffer: buf }); })
-            .then(function(result) { document.getElementById("content").innerHTML = result.value; });
+            .then(function(result) {
+                var tmp = document.createElement("div");
+                tmp.innerHTML = result.value;
+                var first = tmp.querySelector("p");
+                if (first) {
+                    var chapterTitle = document.getElementById("chapter-title");
+                    chapterTitle.textContent = first.textContent;
+                    document.title = first.textContent + " – Túl-világ";
+                    first.remove();
+                }
+                document.getElementById("content").innerHTML = tmp.innerHTML;
+                var ps = document.getElementById("content").querySelectorAll("p");
+                for (var i = 0; i < ps.length; i++) {
+                    var t = ps[i].textContent.trimStart();
+                    if (t.charAt(0) === "\u2013" || t.charAt(0) === "\u2014" || t.charAt(0) === "-") {
+                        ps[i].classList.add("dialogue");
+                    }
+                }
+            });
     </script>
     <a class="back" href="index.html">← Vissza a főoldalra</a>
 </body>
