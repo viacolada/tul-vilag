@@ -25,7 +25,10 @@
             <a id="btn-ch2" class="locked">2. fejezet</a>
             <div id="countdown2" class="countdown"></div>
         </div>
-       <!--<a href="fejezet3.html">3. fejezet</a>-->
+        <div class="chapter-wrapper">
+            <a id="btn-ch3" class="locked">3. fejezet</a>
+            <div id="countdown3" class="countdown"></div>
+        </div>
     </div>
     <script>
         (function() {
@@ -78,6 +81,30 @@
                 requestAnimationFrame(function() { setTimeout(update2, 1000); });
             }
             update2();
+            // 3. fejezet visszaszámláló
+            var target3 = new Date("2026-04-26T00:00:00").getTime();
+            var btn3 = document.getElementById("btn-ch3");
+            var cd3 = document.getElementById("countdown3");
+
+            function update3() {
+                var now = Date.now();
+                var diff = target3 - now;
+                if (diff <= 0) {
+                    cd3.textContent = "";
+                    btn3.classList.remove("locked");
+                    btn3.href = "fejezet3.html";
+                    return;
+                }
+                var d = Math.floor(diff / 86400000);
+                var h = Math.floor((diff % 86400000) / 3600000);
+                var m = Math.floor((diff % 3600000) / 60000);
+                var s = Math.floor((diff % 60000) / 1000);
+                cd3.textContent = d + " nap " + h + " \u00f3ra " + m + " perc " + s + " mp";
+                btn3.classList.add("locked");
+                btn3.removeAttribute("href");
+                requestAnimationFrame(function() { setTimeout(update3, 1000); });
+            }
+            update3();
         })();
     </script>
 </body>
