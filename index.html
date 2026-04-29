@@ -10,12 +10,14 @@
 <body>
     <button class="theme-toggle" aria-label="Téma váltás"></button>
     <h1>Túl-világ</h1>
+
     <figure class="quote-box">
         <blockquote>
             <p>&bdquo;In each of us, there is another whom we do not know. He speaks to us in dreams, tells us things we do not understand, and guides us in moments when reason fails. This stranger is closer than our own shadow.&rdquo;</p>
         </blockquote>
         <figcaption>&mdash; C. G. Jung</figcaption>
     </figure>
+
     <div class="chapters">
         <div class="chapter-wrapper">
             <a href="fejezet1.html" id="btn-ch1" class="locked">1. fejezet</a>
@@ -34,105 +36,47 @@
             <div id="countdown4" class="countdown"></div>
         </div>
     </div>
+
     <script>
         (function() {
-            // 1. fejezet visszaszámláló
-            var target1 = new Date("2026-04-04T00:00:00").getTime();
-            var btn1 = document.getElementById("btn-ch1");
-            var cd1 = document.getElementById("countdown");
 
-            function update1() {
-                var now = Date.now();
-                var diff = target1 - now;
-                if (diff <= 0) {
-                    cd1.textContent = "";
-                    btn1.classList.remove("locked");
-                    btn1.href = "fejezet1.html";
-                    return;
+            function setupCountdown(targetDate, btnId, cdId, link) {
+                var target = new Date(targetDate).getTime();
+                var btn = document.getElementById(btnId);
+                var cd = document.getElementById(cdId);
+
+                function update() {
+                    var now = Date.now();
+                    var diff = target - now;
+
+                    if (diff <= 0) {
+                        cd.textContent = "";
+                        btn.classList.remove("locked");
+                        btn.href = link;
+                        return;
+                    }
+
+                    var d = Math.floor(diff / 86400000);
+                    var h = Math.floor((diff % 86400000) / 3600000);
+                    var m = Math.floor((diff % 3600000) / 60000);
+                    var s = Math.floor((diff % 60000) / 1000);
+
+                    cd.textContent = d + " nap " + h + " óra " + m + " perc " + s + " mp";
+
+                    btn.classList.add("locked");
+                    btn.removeAttribute("href");
+
+                    setTimeout(update, 1000);
                 }
-                var d = Math.floor(diff / 86400000);
-                var h = Math.floor((diff % 86400000) / 3600000);
-                var m = Math.floor((diff % 3600000) / 60000);
-                var s = Math.floor((diff % 60000) / 1000);
-                cd1.textContent = d + " nap " + h + " \u00f3ra " + m + " perc " + s + " mp";
-                btn1.classList.add("locked");
-                btn1.removeAttribute("href");
-                requestAnimationFrame(function() { setTimeout(update1, 1000); });
-            }
-            update1();
 
-            // 2. fejezet visszaszámláló
-            var target2 = new Date("2026-04-12T00:00:00").getTime();
-            var btn2 = document.getElementById("btn-ch2");
-            var cd2 = document.getElementById("countdown2");
-
-            function update2() {
-                var now = Date.now();
-                var diff = target2 - now;
-                if (diff <= 0) {
-                    cd2.textContent = "";
-                    btn2.classList.remove("locked");
-                    btn2.href = "fejezet2.html";
-                    return;
-                }
-                var d = Math.floor(diff / 86400000);
-                var h = Math.floor((diff % 86400000) / 3600000);
-                var m = Math.floor((diff % 3600000) / 60000);
-                var s = Math.floor((diff % 60000) / 1000);
-                cd2.textContent = d + " nap " + h + " \u00f3ra " + m + " perc " + s + " mp";
-                btn2.classList.add("locked");
-                btn2.removeAttribute("href");
-                requestAnimationFrame(function() { setTimeout(update2, 1000); });
+                update();
             }
-            update2();
-            // 3. fejezet visszaszámláló
-            var target3 = new Date("2026-04-29T00:00:00").getTime();
-            var btn3 = document.getElementById("btn-ch3");
-            var cd3 = document.getElementById("countdown3");
 
-            function update3() {
-                var now = Date.now();
-                var diff = target3 - now;
-                if (diff <= 0) {
-                    cd3.textContent = "";
-                    btn3.classList.remove("locked");
-                    btn3.href = "fejezet3.html";
-                    return;
-                }
-                var d = Math.floor(diff / 86400000);
-                var h = Math.floor((diff % 86400000) / 3600000);
-                var m = Math.floor((diff % 3600000) / 60000);
-                var s = Math.floor((diff % 60000) / 1000);
-                cd3.textContent = d + " nap " + h + " \u00f3ra " + m + " perc " + s + " mp";
-                btn3.classList.add("locked");
-                btn3.removeAttribute("href");
-                requestAnimationFrame(function() { setTimeout(update3, 1000); });
-            }
-            update3();
-            // 4. fejezet visszaszámláló
-            var target4 = new Date("2026-05-20T00:00:00").getTime();
-            var btn4 = document.getElementById("btn-ch4");
-            var cd4 = document.getElementById("countdown4");
+            setupCountdown("2026-04-04T00:00:00", "btn-ch1", "countdown",  "fejezet1.html");
+            setupCountdown("2026-04-12T00:00:00", "btn-ch2", "countdown2", "fejezet2.html");
+            setupCountdown("2026-04-29T00:00:00", "btn-ch3", "countdown3", "fejezet3.html");
+            setupCountdown("2026-05-20T00:00:00", "btn-ch4", "countdown4", "fejezet4.html");
 
-            function update4() {
-                var now = Date.now();
-                var diff = target4 - now;
-                if (diff <= 0) {
-                    cd4.textContent = "";
-                    btn4.classList.remove("locked");
-                    btn4.href = "fejezet4.html";
-                    return;
-                }
-                var d = Math.floor(diff / 86400000);
-                var h = Math.floor((diff % 86400000) / 3600000);
-                var m = Math.floor((diff % 3600000) / 60000);
-                var s = Math.floor((diff % 60000) / 1000);
-                cd2.textContent = d + " nap " + h + " \u00f3ra " + m + " perc " + s + " mp";
-                btn2.classList.add("locked");
-                btn2.removeAttribute("href");
-                requestAnimationFrame(function() { setTimeout(update4, 1000); });
-            }
-            update4();
         })();
     </script>
 </body>
