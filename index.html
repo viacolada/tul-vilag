@@ -29,6 +29,10 @@
             <a id="btn-ch3" class="locked">3. fejezet</a>
             <div id="countdown3" class="countdown"></div>
         </div>
+        <div class="chapter-wrapper">
+            <a id="btn-ch4" class="locked">4. fejezet</a>
+            <div id="countdown4" class="countdown"></div>
+        </div>
     </div>
     <script>
         (function() {
@@ -82,7 +86,7 @@
             }
             update2();
             // 3. fejezet visszaszámláló
-            var target3 = new Date("2026-05-01T00:00:00").getTime();
+            var target3 = new Date("2026-04-29T00:00:00").getTime();
             var btn3 = document.getElementById("btn-ch3");
             var cd3 = document.getElementById("countdown3");
 
@@ -105,6 +109,30 @@
                 requestAnimationFrame(function() { setTimeout(update3, 1000); });
             }
             update3();
+            // 4. fejezet visszaszámláló
+            var target4 = new Date("2026-05-20T00:00:00").getTime();
+            var btn4 = document.getElementById("btn-ch4");
+            var cd4 = document.getElementById("countdown4");
+
+            function update4() {
+                var now = Date.now();
+                var diff = target4 - now;
+                if (diff <= 0) {
+                    cd4.textContent = "";
+                    btn4.classList.remove("locked");
+                    btn4.href = "fejezet4.html";
+                    return;
+                }
+                var d = Math.floor(diff / 86400000);
+                var h = Math.floor((diff % 86400000) / 3600000);
+                var m = Math.floor((diff % 3600000) / 60000);
+                var s = Math.floor((diff % 60000) / 1000);
+                cd2.textContent = d + " nap " + h + " \u00f3ra " + m + " perc " + s + " mp";
+                btn2.classList.add("locked");
+                btn2.removeAttribute("href");
+                requestAnimationFrame(function() { setTimeout(update4, 1000); });
+            }
+            update4();
         })();
     </script>
 </body>
