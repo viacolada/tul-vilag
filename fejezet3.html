@@ -6,6 +6,7 @@
     <title>3. fejezet – Túl-világ</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="theme.js"></script>
 </head>
 <body>
@@ -17,25 +18,79 @@
     <script>
         fetch("3-ARNYEK.docx")
             .then(function(r) { return r.arrayBuffer(); })
-            .then(function(buf) { return mammoth.convertToHtml({ arrayBuffer: buf }); })
-            .then(function(result) {
+            .then(function(buf) {
+                var mammothPromise = mammoth.convertToHtml({ arrayBuffer: buf });
+                var xmlPromise = JSZip.loadAsync(buf).then(function(zip) {
+                    return zip.file("word/document.xml").async("string");
+                });
+                return Promise.all([mammothPromise, xmlPromise]);
+            })
+            .then(function(results) {
+                var mammothResult = results[0];
+                var xmlStr = results[1];
+
+                var wNS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+                var xmlDoc = new DOMParser().parseFromString(xmlStr, "text/xml");
+                var xmlParas = xmlDoc.getElementsByTagNameNS(wNS, "p");
+
+                var paraStyles = [];
+                for (var i = 0; i < xmlParas.length; i++) {
+                    var tNodes = xmlParas[i].getElementsByTagNameNS(wNS, "t");
+                    var text = "";
+                    for (var j = 0; j < tNodes.length; j++) text += tNodes[j].textContent;
+                    if (!text.trim()) continue;
+
+                    var pPr = xmlParas[i].getElementsByTagNameNS(wNS, "pPr")[0];
+                    var style = {};
+                    if (pPr) {
+                        var jc = pPr.getElementsByTagNameNS(wNS, "jc")[0];
+                        if (jc) {
+                            var align = jc.getAttributeNS(wNS, "val");
+                            if (align === "center" || align === "right" || align === "left") {
+                                style.textAlign = align;
+                            }
+                        }
+                        var ind = pPr.getElementsByTagNameNS(wNS, "ind")[0];
+                        if (ind) {
+                            var indLeft = ind.getAttributeNS(wNS, "left");
+                            var firstLine = ind.getAttributeNS(wNS, "firstLine");
+                            var hanging = ind.getAttributeNS(wNS, "hanging");
+                            if (indLeft && parseInt(indLeft) > 0) style.marginLeft = (parseInt(indLeft) * 2.54 / 1440).toFixed(3) + "cm";
+                            if (firstLine) style.textIndent = (parseInt(firstLine) * 2.54 / 1440).toFixed(3) + "cm";
+                            else if (hanging) style.textIndent = "-" + (parseInt(hanging) * 2.54 / 1440).toFixed(3) + "cm";
+                        }
+                    }
+                    paraStyles.push(style);
+                }
+
                 var tmp = document.createElement("div");
-                tmp.innerHTML = result.value;
+                tmp.innerHTML = mammothResult.value;
+                var ps = tmp.querySelectorAll("p");
+
+                for (var i = 0; i < ps.length; i++) {
+                    var s = i < paraStyles.length ? paraStyles[i] : {};
+                    var t = ps[i].textContent.trimStart();
+                    var isDialogue = t.charAt(0) === "\u2013" || t.charAt(0) === "\u2014" || t.charAt(0) === "-";
+
+                    if (isDialogue) ps[i].classList.add("dialogue");
+
+                    if (s.textAlign) {
+                        ps[i].style.textAlign = s.textAlign;
+                        if (!s.textIndent && !isDialogue && (s.textAlign === "center" || s.textAlign === "right")) {
+                            ps[i].style.textIndent = "0";
+                        }
+                    }
+                    if (s.marginLeft) ps[i].style.marginLeft = s.marginLeft;
+                    if (!isDialogue) ps[i].style.textIndent = s.textIndent !== undefined ? s.textIndent : "0";
+                }
+
                 var first = tmp.querySelector("p");
                 if (first) {
-                    var chapterTitle = document.getElementById("chapter-title");
-                    chapterTitle.textContent = first.textContent;
+                    document.getElementById("chapter-title").textContent = first.textContent;
                     document.title = first.textContent + " – Túl-világ";
                     first.remove();
                 }
                 document.getElementById("content").innerHTML = tmp.innerHTML;
-                var ps = document.getElementById("content").querySelectorAll("p");
-                for (var i = 0; i < ps.length; i++) {
-                    var t = ps[i].textContent.trimStart();
-                    if (t.charAt(0) === "\u2013" || t.charAt(0) === "\u2014" || t.charAt(0) === "-") {
-                        ps[i].classList.add("dialogue");
-                    }
-                }
             });
     </script>
     <a class="back" href="index.html">← Vissza a főoldalra</a>
